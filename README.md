@@ -1,4 +1,4 @@
-# Piccolo Engine (formerly Pilot Engine)
+# Piccolo Engine
 
 <p align="center">
   <a href="https://games104.boomingtech.com">

@@ -8,7 +8,7 @@
 
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     class RenderSwapContext;
 
@@ -31,4 +31,4 @@ namespace Piccolo
 
         std::vector<GameObjectPartDesc> m_raw_meshes;
     };
-} // namespace Piccolo
+} // namespace Pilot

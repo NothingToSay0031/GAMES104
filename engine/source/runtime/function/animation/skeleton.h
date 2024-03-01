@@ -3,8 +3,9 @@
 #include "runtime/resource/res_type/components/animation.h"
 
 #include "runtime/function/animation/node.h"
+#include "runtime/function/animation/pose.h"
 
-namespace Piccolo
+namespace Pilot
 {
     class SkeletonData;
     class BlendStateWithClipData;
@@ -20,10 +21,11 @@ namespace Piccolo
         ~Skeleton();
 
         void            buildSkeleton(const SkeletonData& skeleton_definition);
+        void            applyPose(const AnimationPose& pose);
+        void            applyAdditivePose(const AnimationPose& pose);
+        void            extractPose(AnimationPose& pose);
         void            applyAnimation(const BlendStateWithClipData& blend_state);
         AnimationResult outputAnimationResult();
         void            resetSkeleton();
-        const Bone*     getBones() const;
-        int32_t         getBonesCount() const;
     };
-} // namespace Piccolo
+} // namespace Pilot

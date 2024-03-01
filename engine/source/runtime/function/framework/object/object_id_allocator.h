@@ -3,7 +3,7 @@
 #include <atomic>
 #include <limits>
 
-namespace Piccolo
+namespace Pilot
 {
     using GObjectID = std::size_t;
 
@@ -17,4 +17,4 @@ namespace Piccolo
     private:
         static std::atomic<GObjectID> m_next_id;
     };
-} // namespace Piccolo
+} // namespace Pilot

@@ -10,7 +10,7 @@
 
 #include <GLFW/glfw3.h>
 
-namespace Piccolo
+namespace Pilot
 {
     unsigned int k_complement_control_command = 0xFFFFFFFF;
 
@@ -60,9 +60,6 @@ namespace Piccolo
                 break;
                 case GLFW_KEY_LEFT_SHIFT:
                     m_game_command |= (unsigned int)GameCommand::sprint;
-                    break;
-                case GLFW_KEY_F:
-                    m_game_command ^= (unsigned int)GameCommand::free_carema;
                     break;
                 default:
                     break;
@@ -167,4 +164,4 @@ namespace Piccolo
             m_game_command |= (unsigned int)GameCommand::invalid;
         }
     }
-} // namespace Piccolo
+} // namespace Pilot

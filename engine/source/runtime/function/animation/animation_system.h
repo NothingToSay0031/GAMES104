@@ -10,7 +10,7 @@
 #include <memory>
 #include <string>
 
-namespace Piccolo
+namespace Pilot
 {
     class AnimationManager
     {
@@ -25,9 +25,10 @@ namespace Piccolo
         static std::shared_ptr<AnimationClip> tryLoadAnimation(std::string file_path);
         static std::shared_ptr<AnimSkelMap>   tryLoadAnimationSkeletonMap(std::string file_path);
         static std::shared_ptr<BoneBlendMask> tryLoadSkeletonMask(std::string file_path);
+        static ClipData                       getClipData(const BasicClip& basic_clip);
         static BlendStateWithClipData         getBlendStateWithClipData(const BlendState& blend_state);
 
         AnimationManager() = default;
     };
 
-} // namespace Piccolo
+} // namespace Pilot

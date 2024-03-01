@@ -3,13 +3,13 @@
 #include "runtime/core/math/vector2.h"
 #include "runtime/function/render/render_pass.h"
 
-namespace Piccolo
+namespace Pilot
 {
     class RenderResourceBase;
 
     struct PickPassInitInfo : RenderPassInitInfo
     {
-        RHIDescriptorSetLayout* per_mesh_layout;
+        VkDescriptorSetLayout per_mesh_layout;
     };
 
     class PickPass : public RenderPass
@@ -34,10 +34,10 @@ namespace Piccolo
         void setupDescriptorSet();
 
     private:
-        RHIImage*        _object_id_image = nullptr;
-        RHIDeviceMemory* _object_id_image_memory = nullptr;
-        RHIImageView*      _object_id_image_view = nullptr;
+        VkImage        _object_id_image {VK_NULL_HANDLE};
+        VkDeviceMemory _object_id_image_memory {VK_NULL_HANDLE};
+        VkImageView    _object_id_image_view {VK_NULL_HANDLE};
 
-        RHIDescriptorSetLayout* _per_mesh_layout = nullptr;
+        VkDescriptorSetLayout _per_mesh_layout {VK_NULL_HANDLE};
     };
-} // namespace Piccolo
+} // namespace Pilot

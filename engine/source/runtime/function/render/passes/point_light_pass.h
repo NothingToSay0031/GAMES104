@@ -2,7 +2,7 @@
 
 #include "runtime/function/render/render_pass.h"
 
-namespace Piccolo
+namespace Pilot
 {
     class RenderResourceBase;
 
@@ -14,7 +14,7 @@ namespace Piccolo
         void preparePassData(std::shared_ptr<RenderResourceBase> render_resource) override final;
         void draw() override final;
 
-        void setPerMeshLayout(RHIDescriptorSetLayout* layout) { m_per_mesh_layout = layout; }
+        void setPerMeshLayout(const VkDescriptorSetLayout& layout) { m_per_mesh_layout = layout; }
 
     private:
         void setupAttachments();
@@ -26,7 +26,7 @@ namespace Piccolo
         void drawModel();
 
     private:
-        RHIDescriptorSetLayout* m_per_mesh_layout;
+        VkDescriptorSetLayout                           m_per_mesh_layout;
         MeshPointLightShadowPerframeStorageBufferObject m_mesh_point_light_shadow_perframe_storage_buffer_object;
     };
-} // namespace Piccolo
+} // namespace Pilot

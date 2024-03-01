@@ -2,7 +2,7 @@
 #include <cstring>
 #include <map>
 
-namespace Piccolo
+namespace Pilot
 {
     namespace Reflection
     {
@@ -313,4 +313,4 @@ namespace Piccolo
             return *this;
         }
     } // namespace Reflection
-} // namespace Piccolo
+} // namespace Pilot

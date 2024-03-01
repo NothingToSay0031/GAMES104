@@ -7,11 +7,10 @@
 
 #include "runtime/function/framework/level/level.h"
 #include "runtime/function/global/global_context.h"
-#include "runtime/function/framework/level/level_debugger.h"
 
 #include "_generated/serializer/all_serializer.h"
 
-namespace Piccolo
+namespace Pilot
 {
     WorldManager::~WorldManager() { clear(); }
 
@@ -19,9 +18,6 @@ namespace Piccolo
     {
         m_is_world_loaded   = false;
         m_current_world_url = g_runtime_global_context.m_config_manager->getDefaultWorldUrl();
-
-        //debugger
-        m_level_debugger = std::make_shared<LevelDebugger>();
     }
 
     void WorldManager::clear()
@@ -39,9 +35,6 @@ namespace Piccolo
         m_current_world_resource.reset();
         m_current_world_url.clear();
         m_is_world_loaded = false;
-
-        //clear debugger
-        m_level_debugger.reset();
     }
 
     void WorldManager::tick(float delta_time)
@@ -56,7 +49,6 @@ namespace Piccolo
         if (active_level)
         {
             active_level->tick(delta_time);
-            m_level_debugger->tick(active_level);
         }
     }
 
@@ -159,4 +151,4 @@ namespace Piccolo
 
         active_level->save();
     }
-} // namespace Piccolo
+} // namespace Pilot

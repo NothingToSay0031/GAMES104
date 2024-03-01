@@ -2,7 +2,7 @@
 #include "runtime/core/math/transform.h"
 #include "runtime/core/meta/reflection/reflection.h"
 
-namespace Piccolo
+namespace Pilot
 {
     REFLECTION_TYPE(SubMeshRes)
     CLASS(SubMeshRes, Fields)
@@ -23,4 +23,4 @@ namespace Piccolo
     public:
         std::vector<SubMeshRes> m_sub_meshes;
     };
-} // namespace Piccolo
+} // namespace Pilot

@@ -1,9 +1,18 @@
 #pragma once
 
 #include "runtime/core/math/vector3.h"
-#include "runtime/core/math/vector4.h"
 
-namespace Piccolo
+#ifndef GLM_FORCE_RADIANS
+#define GLM_FORCE_RADIANS 1
+#endif
+
+#ifndef GLM_FORCE_DEPTH_ZERO_TO_ONE
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE 1
+#endif
+
+#include <glm/glm.hpp>
+
+namespace Pilot
 {
     class RenderScene;
     class RenderCamera;
@@ -18,12 +27,12 @@ namespace Piccolo
     struct ClusterFrustum
     {
         // we don't consider the near and far plane currently
-        Vector4 m_plane_right;
-        Vector4 m_plane_left;
-        Vector4 m_plane_top;
-        Vector4 m_plane_bottom;
-        Vector4 m_plane_near;
-        Vector4 m_plane_far;
+        glm::vec4 m_plane_right;
+        glm::vec4 m_plane_left;
+        glm::vec4 m_plane_top;
+        glm::vec4 m_plane_bottom;
+        glm::vec4 m_plane_near;
+        glm::vec4 m_plane_far;
     };
 
     struct BoundingBox
@@ -58,16 +67,16 @@ namespace Piccolo
 
     struct BoundingSphere
     {
-        Vector3   m_center;
+        glm::vec3 m_center;
         float     m_radius;
     };
 
     struct FrustumPoints
     {
-        Vector3 m_frustum_points;
+        glm::vec3 m_frustum_points;
     };
 
-    ClusterFrustum CreateClusterFrustumFromMatrix(Matrix4x4 mat,
+    ClusterFrustum CreateClusterFrustumFromMatrix(glm::mat4 mat,
                                                   float     x_left,
                                                   float     x_right,
                                                   float     y_top,
@@ -77,9 +86,9 @@ namespace Piccolo
 
     bool TiledFrustumIntersectBox(ClusterFrustum const& f, BoundingBox const& b);
 
-    BoundingBox BoundingBoxTransform(BoundingBox const& b, Matrix4x4 const& m);
+    BoundingBox BoundingBoxTransform(BoundingBox const& b, glm::mat4 const& m);
 
     bool BoxIntersectsWithSphere(BoundingBox const& b, BoundingSphere const& s);
 
-    Matrix4x4 CalculateDirectionalLightCamera(RenderScene& scene, RenderCamera& camera);
-} // namespace Piccolo
+    glm::mat4 CalculateDirectionalLightCamera(RenderScene& scene, RenderCamera& camera);
+} // namespace Pilot

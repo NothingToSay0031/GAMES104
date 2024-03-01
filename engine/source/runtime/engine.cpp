@@ -6,27 +6,27 @@
 #include "runtime/function/framework/world/world_manager.h"
 #include "runtime/function/global/global_context.h"
 #include "runtime/function/input/input_system.h"
-#include "runtime/function/particle/particle_manager.h"
 #include "runtime/function/physics/physics_manager.h"
 #include "runtime/function/render/render_system.h"
 #include "runtime/function/render/window_system.h"
-#include "runtime/function/render/debugdraw/debug_draw_manager.h"
 
-namespace Piccolo
+namespace Pilot
 {
     bool                            g_is_editor_mode {false};
     std::unordered_set<std::string> g_editor_tick_component_types {};
 
-    void PiccoloEngine::startEngine(const std::string& config_file_path)
+    void PilotEngine::startEngine(const EngineInitParams& param)
     {
+        m_init_params = param;
+
         Reflection::TypeMetaRegister::Register();
 
-        g_runtime_global_context.startSystems(config_file_path);
+        g_runtime_global_context.startSystems(param);
 
         LOG_INFO("engine start");
     }
 
-    void PiccoloEngine::shutdownEngine()
+    void PilotEngine::shutdownEngine()
     {
         LOG_INFO("engine shutdown");
 
@@ -35,10 +35,10 @@ namespace Piccolo
         Reflection::TypeMetaRegister::Unregister();
     }
 
-    void PiccoloEngine::initialize() {}
-    void PiccoloEngine::clear() {}
+    void PilotEngine::initialize() {}
+    void PilotEngine::clear() {}
 
-    void PiccoloEngine::run()
+    void PilotEngine::run()
     {
         std::shared_ptr<WindowSystem> window_system = g_runtime_global_context.m_window_system;
         ASSERT(window_system);
@@ -50,7 +50,7 @@ namespace Piccolo
         }
     }
 
-    float PiccoloEngine::calculateDeltaTime()
+    float PilotEngine::calculateDeltaTime()
     {
         float delta_time;
         {
@@ -65,7 +65,7 @@ namespace Piccolo
         return delta_time;
     }
 
-    bool PiccoloEngine::tickOneFrame(float delta_time)
+    bool PilotEngine::tickOneFrame(float delta_time)
     {
         logicalTick(delta_time);
         calculateFPS(delta_time);
@@ -74,7 +74,7 @@ namespace Piccolo
         // exchange data between logic and render contexts
         g_runtime_global_context.m_render_system->swapLogicRenderData();
 
-        rendererTick(delta_time);
+        rendererTick();
 
 #ifdef ENABLE_PHYSICS_DEBUG_RENDERER
         g_runtime_global_context.m_physics_manager->renderPhysicsWorld(delta_time);
@@ -83,27 +83,27 @@ namespace Piccolo
         g_runtime_global_context.m_window_system->pollEvents();
 
 
-        g_runtime_global_context.m_window_system->setTitle(
-            std::string("Piccolo - " + std::to_string(getFPS()) + " FPS").c_str());
+        g_runtime_global_context.m_window_system->setTile(
+            std::string("Pilot - " + std::to_string(getFPS()) + " FPS").c_str());
 
         const bool should_window_close = g_runtime_global_context.m_window_system->shouldClose();
         return !should_window_close;
     }
 
-    void PiccoloEngine::logicalTick(float delta_time)
+    void PilotEngine::logicalTick(float delta_time)
     {
         g_runtime_global_context.m_world_manager->tick(delta_time);
         g_runtime_global_context.m_input_system->tick();
     }
 
-    bool PiccoloEngine::rendererTick(float delta_time)
+    bool PilotEngine::rendererTick()
     {
-        g_runtime_global_context.m_render_system->tick(delta_time);
+        g_runtime_global_context.m_render_system->tick();
         return true;
     }
 
-    const float PiccoloEngine::s_fps_alpha = 1.f / 100;
-    void        PiccoloEngine::calculateFPS(float delta_time)
+    const float PilotEngine::k_fps_alpha = 1.f / 100;
+    void        PilotEngine::calculateFPS(float delta_time)
     {
         m_frame_count++;
 
@@ -113,9 +113,9 @@ namespace Piccolo
         }
         else
         {
-            m_average_duration = m_average_duration * (1 - s_fps_alpha) + delta_time * s_fps_alpha;
+            m_average_duration = m_average_duration * (1 - k_fps_alpha) + delta_time * k_fps_alpha;
         }
 
         m_fps = static_cast<int>(1.f / m_average_duration);
     }
-} // namespace Piccolo
+} // namespace Pilot

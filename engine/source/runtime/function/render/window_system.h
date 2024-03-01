@@ -7,13 +7,13 @@
 #include <functional>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     struct WindowCreateInfo
     {
         int         width {1280};
         int         height {720};
-        const char* title {"Piccolo"};
+        const char* title {"Pilot"};
         bool        is_fullscreen {false};
     };
 
@@ -25,7 +25,7 @@ namespace Piccolo
         void               initialize(WindowCreateInfo create_info);
         void               pollEvents() const;
         bool               shouldClose() const;
-        void               setTitle(const char* title);
+        void               setTile(const char* title);
         GLFWwindow*        getWindow() const;
         std::array<int, 2> getWindowSize() const;
 
@@ -213,4 +213,4 @@ namespace Piccolo
 
 
     };
-} // namespace Piccolo
+} // namespace Pilot

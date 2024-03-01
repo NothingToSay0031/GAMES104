@@ -1,11 +1,7 @@
 #pragma once
 
-#include "runtime/function/particle/emitter_id_allocator.h"
-#include "runtime/function/particle/particle_desc.h"
 #include "runtime/function/render/render_camera.h"
 #include "runtime/function/render/render_object.h"
-
-#include "runtime/resource/res_type/global/global_particle.h"
 #include "runtime/resource/res_type/global/global_rendering.h"
 
 #include <cstdint>
@@ -13,7 +9,7 @@
 #include <optional>
 #include <string>
 
-namespace Piccolo
+namespace Pilot
 {
     struct LevelIBLResourceDesc
     {
@@ -44,59 +40,21 @@ namespace Piccolo
     {
         std::deque<GameObjectDesc> m_game_object_descs;
 
-        void add(GameObjectDesc& desc);
-        void pop();
-
-        bool isEmpty() const;
-
-        GameObjectDesc& getNextProcessObject();
-    };
-
-    struct ParticleSubmitRequest
-    {
-        std::vector<ParticleEmitterDesc> m_emitter_descs;
-
-        void add(ParticleEmitterDesc& desc);
-
-        unsigned int getEmitterCount() const;
-
-        const ParticleEmitterDesc& getEmitterDesc(unsigned int index);
-    };
-
-    struct EmitterTickRequest
-    {
-        std::vector<ParticleEmitterID> m_emitter_indices;
-    };
-
-    struct EmitterTransformRequest
-    {
-        std::vector<ParticleEmitterTransformDesc> m_transform_descs;
-
-        void add(ParticleEmitterTransformDesc& desc);
-
-        void clear();
-
-        unsigned int getEmitterCount() const;
-
-        const ParticleEmitterTransformDesc& getNextEmitterTransformDesc(unsigned int index);
+        void                       add(GameObjectDesc desc);
+        bool                       isEmpty() const;
+        GameObjectDesc             getNextProcessObject();
+        void                       popProcessObject();
     };
 
     struct RenderSwapData
     {
-        std::optional<LevelResourceDesc>       m_level_resource_desc;
-        std::optional<GameObjectResourceDesc>  m_game_object_resource_desc;
-        std::optional<GameObjectResourceDesc>  m_game_object_to_delete;
-        std::optional<CameraSwapData>          m_camera_swap_data;
-        std::optional<ParticleSubmitRequest>   m_particle_submit_request;
-        std::optional<EmitterTickRequest>      m_emitter_tick_request;
-        std::optional<EmitterTransformRequest> m_emitter_transform_request;
+        std::optional<LevelResourceDesc>      m_level_resource_desc;
+        std::optional<GameObjectResourceDesc> m_game_object_resource_desc;
+        std::optional<GameObjectResourceDesc> m_game_object_to_delete;
+        std::optional<CameraSwapData>         m_camera_swap_data;
 
-        void addDirtyGameObject(GameObjectDesc&& desc);
-        void addDeleteGameObject(GameObjectDesc&& desc);
-
-        void addNewParticleEmitter(ParticleEmitterDesc& desc);
-        void addTickParticleEmitter(ParticleEmitterID id);
-        void updateParticleTransform(ParticleEmitterTransformDesc& desc);
+        void addDirtyGameObject(GameObjectDesc desc);
+        void addDeleteGameObject(GameObjectDesc desc);
     };
 
     enum SwapDataType : uint8_t
@@ -116,9 +74,6 @@ namespace Piccolo
         void            resetGameObjectResourceSwapData();
         void            resetGameObjectToDelete();
         void            resetCameraSwapData();
-        void            resetPartilceBatchSwapData();
-        void            resetEmitterTickSwapData();
-        void            resetEmitterTransformSwapData();
 
     private:
         uint8_t        m_logic_swap_data_index {LogicSwapDataType};
@@ -128,4 +83,4 @@ namespace Piccolo
         bool isReadyToSwap() const;
         void swap();
     };
-} // namespace Piccolo
+} // namespace Pilot

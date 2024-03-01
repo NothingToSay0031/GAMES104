@@ -6,7 +6,7 @@
 
 #include "runtime/resource/res_type/data/camera_config.h"
 
-namespace Piccolo
+namespace Pilot
 {
     REFLECTION_TYPE(SkyBoxIrradianceMap)
     CLASS(SkyBoxIrradianceMap, Fields)
@@ -52,7 +52,6 @@ namespace Piccolo
         REFLECTION_BODY(GlobalRenderingRes);
 
     public:
-        bool                m_enable_fxaa {false};
         SkyBoxIrradianceMap m_skybox_irradiance_map;
         SkyBoxSpecularMap   m_skybox_specular_map;
         std::string         m_brdf_map;
@@ -63,4 +62,4 @@ namespace Piccolo
         CameraConfig     m_camera_config;
         DirectionalLight m_directional_light;
     };
-} // namespace Piccolo
+} // namespace Pilot

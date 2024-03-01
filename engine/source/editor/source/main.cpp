@@ -1,4 +1,3 @@
-#include <filesystem>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -9,20 +8,23 @@
 #include "editor/include/editor.h"
 
 // https://gcc.gnu.org/onlinedocs/cpp/Stringizing.html
-#define PICCOLO_XSTR(s) PICCOLO_STR(s)
-#define PICCOLO_STR(s) #s
+#define PILOT_XSTR(s) PILOT_STR(s)
+#define PILOT_STR(s) #s
 
 int main(int argc, char** argv)
 {
-    std::filesystem::path executable_path(argv[0]);
-    std::filesystem::path config_file_path = executable_path.parent_path() / "PiccoloEditor.ini";
+    std::filesystem::path pilot_root_folder = std::filesystem::path(PILOT_XSTR(PILOT_ROOT_DIR));
 
-    Piccolo::PiccoloEngine* engine = new Piccolo::PiccoloEngine();
+    Pilot::EngineInitParams params;
+    params.m_root_folder      = pilot_root_folder;
+    params.m_config_file_path = pilot_root_folder / "PilotEditor.ini";
 
-    engine->startEngine(config_file_path.generic_string());
+    Pilot::PilotEngine* engine = new Pilot::PilotEngine();
+
+    engine->startEngine(params);
     engine->initialize();
 
-    Piccolo::PiccoloEditor* editor = new Piccolo::PiccoloEditor();
+    Pilot::PilotEditor* editor = new Pilot::PilotEditor();
     editor->initialize(engine);
 
     editor->run();

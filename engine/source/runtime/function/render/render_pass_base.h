@@ -1,8 +1,8 @@
 #pragma once
 
-#include "runtime/function/render/interface/rhi.h"
+#include "runtime/function/render/rhi.h"
 
-namespace Piccolo
+namespace Pilot
 {
     class RHI;
     class RenderResourceBase;
@@ -30,4 +30,4 @@ namespace Piccolo
         std::shared_ptr<RHI>                m_rhi;
         std::shared_ptr<RenderResourceBase> m_render_resource;
     };
-} // namespace Piccolo
+} // namespace Pilot

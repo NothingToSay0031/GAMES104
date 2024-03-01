@@ -2,15 +2,15 @@
 
 #include <unordered_map>
 
-namespace Piccolo
+namespace Pilot
 {
-    static const size_t s_invalid_guid = 0;
+    static const size_t k_invalid_guid = 0;
 
     template<typename T>
     class GuidAllocator
     {
     public:
-        static bool isValidGuid(size_t guid) { return guid != s_invalid_guid; }
+        static bool isValidGuid(size_t guid) { return guid != k_invalid_guid; }
 
         size_t allocGuid(const T& t)
         {
@@ -31,7 +31,7 @@ namespace Piccolo
                 }
             }
 
-            return s_invalid_guid;
+            return k_invalid_guid;
         }
 
         bool getGuidRelatedElement(size_t guid, T& t)
@@ -101,4 +101,4 @@ namespace Piccolo
         std::unordered_map<size_t, T> m_guid_elements_map;
     };
 
-} // namespace Piccolo
+} // namespace Pilot

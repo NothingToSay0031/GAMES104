@@ -2,7 +2,7 @@
 
 #include "runtime/function/render/render_pipeline_base.h"
 
-namespace Piccolo
+namespace Pilot
 {
     class RenderPipeline : public RenderPipelineBase
     {
@@ -23,4 +23,4 @@ namespace Piccolo
 
         void setSelectedAxis(size_t selected_axis);
     };
-} // namespace Piccolo
+} // namespace Pilot

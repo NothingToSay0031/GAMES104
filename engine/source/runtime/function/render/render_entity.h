@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     class RenderEntity
     {
@@ -31,4 +31,4 @@ namespace Piccolo
         float   m_occlusion_strength {1.0f};
         Vector3 m_emissive_factor {0.0f, 0.0f, 0.0f};
     };
-} // namespace Piccolo
+} // namespace Pilot

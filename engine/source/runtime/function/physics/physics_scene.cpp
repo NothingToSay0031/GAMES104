@@ -23,17 +23,16 @@
 #include "Jolt/Physics/Collision/RayCast.h"
 #include "Jolt/Physics/Collision/Shape/BoxShape.h"
 #include "Jolt/Physics/Collision/Shape/CapsuleShape.h"
-#include "Jolt/Physics/Collision/Shape/CompoundShapeVisitors.h"
 #include "Jolt/Physics/Collision/Shape/SphereShape.h"
 #include "Jolt/Physics/Collision/Shape/StaticCompoundShape.h"
 #include "Jolt/Physics/Collision/ShapeCast.h"
 #include "Jolt/Physics/PhysicsSystem.h"
 
-namespace Piccolo
+namespace Pilot
 {
     PhysicsScene::PhysicsScene(const Vector3& gravity)
     {
-        static_assert(s_invalid_rigidbody_id == JPH::BodyID::cInvalidBodyID);
+        static_assert(k_invalid_rigidbody_id == JPH::BodyID::cInvalidBodyID);
 
         JPH::Factory::sInstance = new JPH::Factory();
         JPH::RegisterTypes();
@@ -120,19 +119,32 @@ namespace Piccolo
         JPH::EMotionType motion_type = JPH::EMotionType::Static;
         JPH::ObjectLayer layer       = Layers::NON_MOVING;
 
-        JPH::Ref<JPH::StaticCompoundShapeSettings> compund_shape_setting = new JPH::StaticCompoundShapeSettings;
-        for (const JPHShapeData& shape_data : jph_shapes)
+        JPH::Body* jph_body = nullptr;
+        if (jph_shapes.size() == 1)
         {
-            compund_shape_setting->AddShape(toVec3(shape_data.local_transform.m_position * shape_data.global_scale),
-                                            toQuat(shape_data.local_transform.m_rotation),
-                                            shape_data.shape);
+            jph_body = body_interface.CreateBody(JPH::BodyCreationSettings(jph_shapes[0].shape,
+                                                                           toVec3(jph_shapes[0].global_position),
+                                                                           toQuat(jph_shapes[0].global_rotation),
+                                                                           motion_type,
+                                                                           layer));
         }
+        else
+        {
+            JPH::Ref<JPH::StaticCompoundShapeSettings> compund_shape_setting = new JPH::StaticCompoundShapeSettings;
 
-        JPH::Body* jph_body = body_interface.CreateBody(JPH::BodyCreationSettings(compund_shape_setting,
-                                                                                  toVec3(global_transform.m_position),
-                                                                                  toQuat(global_transform.m_rotation),
-                                                                                  motion_type,
-                                                                                  layer));
+            for (const JPHShapeData& shape_data : jph_shapes)
+            {
+                compund_shape_setting->AddShape(toVec3(shape_data.local_transform.m_position),
+                                                toQuat(shape_data.local_transform.m_rotation),
+                                                shape_data.shape);
+            }
+
+            jph_body = body_interface.CreateBody(JPH::BodyCreationSettings(compund_shape_setting,
+                                                                           toVec3(global_transform.m_position),
+                                                                           toQuat(global_transform.m_rotation),
+                                                                           motion_type,
+                                                                           layer));
+        }
 
         if (jph_body == nullptr)
         {
@@ -146,7 +158,6 @@ namespace Piccolo
         }
 
         body_interface.AddBody(jph_body->GetID(), JPH::EActivation::Activate);
-        LOG_INFO("Add Body: {}", jph_body->GetID().GetIndexAndSequenceNumber());
 
         return jph_body->GetID().GetIndexAndSequenceNumber();
     }
@@ -157,10 +168,13 @@ namespace Piccolo
     {
         JPH::BodyInterface& body_interface = m_physics.m_jolt_physics_system->GetBodyInterface();
 
-        body_interface.SetPositionAndRotation(JPH::BodyID(body_id),
-                                              toVec3(global_transform.m_position),
-                                              toQuat(global_transform.m_rotation),
-                                              JPH::EActivation::Activate);
+        Matrix4x4 com_transform = toMat44(body_interface.GetCenterOfMassTransform(JPH::BodyID(body_id)));
+
+        body_interface.SetPositionAndRotation(
+            JPH::BodyID(body_id),
+            toVec3(global_transform.m_position),
+            toQuat(global_transform.m_rotation),
+            JPH::EActivation::Activate);
     }
 
     void PhysicsScene::tick(float delta_time)
@@ -177,7 +191,7 @@ namespace Piccolo
         for (uint32_t body_id : m_pending_remove_bodies)
         {
             LOG_INFO("Remove Body {}", body_id)
-            body_interface.RemoveBody(JPH::BodyID(body_id));
+                body_interface.RemoveBody(JPH::BodyID(body_id));
             body_interface.DestroyBody(JPH::BodyID(body_id));
         }
         m_pending_remove_bodies.clear();
@@ -307,46 +321,10 @@ namespace Piccolo
         }
 
         JPH::AnyHitCollisionCollector<JPH::CollideShapeCollector> collector;
-        scene_query.CollideShape(jph_shape,
-                                 JPH::Vec3::sReplicate(1.0f),
-                                 toMat44(shape_global_transform),
-                                 JPH::CollideShapeSettings(),
-                                 collector);
+        scene_query.CollideShape(
+            jph_shape, JPH::Vec3::sReplicate(1.0f), toMat44(global_transform), JPH::CollideShapeSettings(), collector);
 
         return collector.HadHit();
-    }
-
-    void PhysicsScene::getShapeBoundingBoxes(uint32_t body_id, std::vector<AxisAlignedBox>& out_bounding_boxes) const
-    {
-        JPH::BodyLockRead body_lock(m_physics.m_jolt_physics_system->GetBodyLockInterface(), JPH::BodyID(body_id));
-        const JPH::Body&  body = body_lock.GetBody();
-
-        JPH::TransformedShape body_transformed_shape = body.GetTransformedShape();
-
-        struct Collector : JPH::TransformedShapeCollector
-        {
-            virtual void AddHit(const ResultType& inResult) override { mShapes.push_back(inResult); }
-
-            std::vector<JPH::TransformedShape> mShapes;
-        };
-
-        Collector collector;
-        body_transformed_shape.CollectTransformedShapes(body_transformed_shape.GetWorldSpaceBounds(), collector);
-
-        for (const JPH::TransformedShape& ts : collector.mShapes)
-        {
-            const JPH::Shape* shape = ts.mShape;
-
-            assert(shape->GetType() == JPH::EShapeType::Convex);
-
-            RigidBodyShape rigid_body_shape;
-
-            JPH::AABox jph_bounding_box = ts.GetWorldSpaceBounds();
-            Vector3    center           = toVec3(jph_bounding_box.GetCenter());
-            Vector3    extent           = toVec3(jph_bounding_box.GetExtent());
-
-            out_bounding_boxes.emplace_back(center, extent);
-        }
     }
 
 #ifdef ENABLE_PHYSICS_DEBUG_RENDERER
@@ -359,4 +337,4 @@ namespace Piccolo
     }
 #endif
 
-} // namespace Piccolo
+} // namespace Pilot

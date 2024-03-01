@@ -4,7 +4,7 @@
 
 #include <string>
 #include <vector>
-namespace Piccolo
+namespace Pilot
 {
 
     REFLECTION_TYPE(RawBone)
@@ -33,4 +33,4 @@ namespace Piccolo
                                            // build process
     };
 
-} // namespace Piccolo
+} // namespace Pilot

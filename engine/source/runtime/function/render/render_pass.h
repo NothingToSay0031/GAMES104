@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     class VulkanRHI;
 
@@ -48,6 +48,7 @@ namespace Piccolo
         std::vector<RenderMeshNode>*              p_point_lights_visible_mesh_nodes {nullptr};
         std::vector<RenderMeshNode>*              p_main_camera_visible_mesh_nodes {nullptr};
         RenderAxisNode*                           p_axis_node {nullptr};
+        std::vector<RenderParticleBillboardNode>* p_main_camera_visible_particlebillboard_nodes {nullptr};
     };
 
     class RenderPass : public RenderPassBase
@@ -55,34 +56,35 @@ namespace Piccolo
     public:
         struct FrameBufferAttachment
         {
-            RHIImage*        image;
-            RHIDeviceMemory* mem;
-            RHIImageView*    view;
-            RHIFormat       format;
+            VkImage        image;
+            VkDeviceMemory mem;
+            VkImageView    view;
+            VkFormat       format;
         };
 
         struct Framebuffer
         {
             int           width;
             int           height;
-            RHIFramebuffer* framebuffer;
-            RHIRenderPass*  render_pass;
+            VkFramebuffer framebuffer;
+            VkRenderPass  render_pass;
 
             std::vector<FrameBufferAttachment> attachments;
         };
 
         struct Descriptor
         {
-            RHIDescriptorSetLayout* layout;
-            RHIDescriptorSet*       descriptor_set;
+            VkDescriptorSetLayout layout;
+            VkDescriptorSet       descriptor_set;
         };
 
         struct RenderPipelineBase
         {
-            RHIPipelineLayout* layout;
-            RHIPipeline*       pipeline;
+            VkPipelineLayout layout;
+            VkPipeline       pipeline;
         };
 
+        std::shared_ptr<VulkanRHI> m_vulkan_rhi {nullptr};
         GlobalRenderResource*      m_global_render_resource {nullptr};
 
         std::vector<Descriptor>         m_descriptor_infos;
@@ -94,12 +96,12 @@ namespace Piccolo
 
         virtual void draw();
 
-        virtual RHIRenderPass*                       getRenderPass() const;
-        virtual std::vector<RHIImageView*>           getFramebufferImageViews() const;
-        virtual std::vector<RHIDescriptorSetLayout*> getDescriptorSetLayouts() const;
+        virtual VkRenderPass                       getRenderPass() const;
+        virtual std::vector<VkImageView>           getFramebufferImageViews() const;
+        virtual std::vector<VkDescriptorSetLayout> getDescriptorSetLayouts() const;
 
         static VisiableNodes m_visiable_nodes;
 
     private:
     };
-} // namespace Piccolo
+} // namespace Pilot

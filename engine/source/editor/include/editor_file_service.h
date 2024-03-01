@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     class EditorFileNode;
     using EditorFileNodeArray = std::vector<std::shared_ptr<EditorFileNode>>;
@@ -36,4 +36,4 @@ namespace Piccolo
 
         void buildEngineFileTree();
     };
-} // namespace Piccolo
+} // namespace Pilot

@@ -5,7 +5,7 @@
 
 #include "runtime/resource/res_type/data/skeleton_data.h"
 
-namespace Piccolo
+namespace Pilot
 {
     class Node
     {
@@ -14,11 +14,11 @@ namespace Piccolo
         enum class TransformSpace
         {
             /// Transform is relative to the local space
-            LOCAL,
+            _local,
             /// Transform is relative to the space of the parent pNode
-            AREN,
+            _aren,
             /// Transform is relative to object space
-            OBJECT
+            _object
         };
 #ifdef _DEBUG
     public:
@@ -75,10 +75,10 @@ namespace Piccolo
         // Triggers the pNode to update it's combined transforms.
         virtual void updateDerivedTransform(void);
 
-        virtual void translate(const Vector3& d, TransformSpace relativeTo = TransformSpace::AREN);
+        virtual void translate(const Vector3& d, TransformSpace relativeTo = TransformSpace::_aren);
 
         // Rotate the pNode around an aritrary axis using a Quarternion.
-        virtual void rotate(const Quaternion& q, TransformSpace relativeTo = TransformSpace::LOCAL);
+        virtual void rotate(const Quaternion& q, TransformSpace relativeTo = TransformSpace::_local);
 
         // Gets the orientation of the pNode as derived from all parents.
         virtual const Quaternion& _getDerivedOrientation(void) const;
@@ -113,4 +113,4 @@ namespace Piccolo
 
         size_t getID(void) const;
     };
-} // namespace Piccolo
+} // namespace Pilot

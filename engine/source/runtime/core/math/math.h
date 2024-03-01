@@ -8,7 +8,7 @@
 
 #define CMP(x, y) (fabsf(x - y) < FLT_EPSILON * fmaxf(1.0f, fmaxf(fabsf(x), fabsf(y))))
 
-namespace Piccolo
+namespace Pilot
 {
     static const float Math_POS_INFINITY = std::numeric_limits<float>::infinity();
     static const float Math_NEG_INFINITY = -std::numeric_limits<float>::infinity();
@@ -265,9 +265,6 @@ namespace Piccolo
 
         static Matrix4x4
         makeOrthographicProjectionMatrix(float left, float right, float bottom, float top, float znear, float zfar);
-        
-        static Matrix4x4
-        makeOrthographicProjectionMatrix01(float left, float right, float bottom, float top, float znear, float zfar);
     };
 
     // these functions could not be defined within the class definition of class
@@ -310,4 +307,4 @@ namespace Piccolo
     inline Degree operator*(float a, const Degree& b) { return Degree(a * b.valueDegrees()); }
 
     inline Degree operator/(float a, const Degree& b) { return Degree(a / b.valueDegrees()); }
-} // namespace Piccolo
+} // namespace Pilot

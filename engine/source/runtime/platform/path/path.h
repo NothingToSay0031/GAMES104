@@ -5,7 +5,7 @@
 #include <tuple>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     class Path
     {
@@ -20,4 +20,4 @@ namespace Piccolo
 
         static const std::string getFilePureName(const std::string);
     };
-} // namespace Piccolo
+} // namespace Pilot

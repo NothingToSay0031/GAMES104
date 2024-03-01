@@ -2,7 +2,7 @@
 
 using namespace std;
 
-namespace Piccolo
+namespace Pilot
 {
     vector<filesystem::path> FileSystem::getFiles(const filesystem::path& directory)
     {
@@ -16,4 +16,4 @@ namespace Piccolo
         }
         return files;
     }
-} // namespace Piccolo
+} // namespace Pilot

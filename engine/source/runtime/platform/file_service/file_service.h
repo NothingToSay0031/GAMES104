@@ -3,11 +3,11 @@
 #include <filesystem>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     class FileSystem 
     {
     public:
         std::vector<std::filesystem::path> getFiles(const std::filesystem::path& directory);
     };
-} // namespace Piccolo
+} // namespace Pilot

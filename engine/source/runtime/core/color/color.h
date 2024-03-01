@@ -3,7 +3,7 @@
 
 #include "runtime/core/math/vector3.h"
 
-namespace Piccolo
+namespace Pilot
 {
     REFLECTION_TYPE(Color)
     CLASS(Color, Fields)

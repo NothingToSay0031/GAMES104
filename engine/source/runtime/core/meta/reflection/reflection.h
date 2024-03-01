@@ -7,7 +7,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
 
 #if defined(__REFLECTION_PARSER__)
@@ -41,21 +41,21 @@ namespace Piccolo
 #define REGISTER_ARRAY_TO_MAP(name, value) TypeMetaRegisterinterface::registerToArrayMap(name, value);
 #define UNREGISTER_ALL TypeMetaRegisterinterface::unregisterAll();
 
-#define PICCOLO_REFLECTION_NEW(name, ...) Reflection::ReflectionPtr(#name, new name(__VA_ARGS__));
-#define PICCOLO_REFLECTION_DELETE(value) \
+#define PILOT_REFLECTION_NEW(name, ...) Reflection::ReflectionPtr(#name, new name(__VA_ARGS__));
+#define PILOT_REFLECTION_DELETE(value) \
     if (value) \
     { \
         delete value.operator->(); \
         value.getPtrReference() = nullptr; \
     }
-#define PICCOLO_REFLECTION_DEEP_COPY(type, dst_ptr, src_ptr) \
+#define PILOT_REFLECTION_DEEP_COPY(type, dst_ptr, src_ptr) \
     *static_cast<type*>(dst_ptr) = *static_cast<type*>(src_ptr.getPtr());
 
 #define TypeMetaDef(class_name, ptr) \
-    Piccolo::Reflection::ReflectionInstance(Piccolo::Reflection::TypeMeta::newMetaFromName(#class_name), (class_name*)ptr)
+    Pilot::Reflection::ReflectionInstance(Pilot::Reflection::TypeMeta::newMetaFromName(#class_name), (class_name*)ptr)
 
 #define TypeMetaDefPtr(class_name, ptr) \
-    new Piccolo::Reflection::ReflectionInstance(Piccolo::Reflection::TypeMeta::newMetaFromName(#class_name), \
+    new Pilot::Reflection::ReflectionInstance(Pilot::Reflection::TypeMeta::newMetaFromName(#class_name), \
                                               (class_name*)ptr)
 
     template<typename T, typename U, typename = void>
@@ -342,4 +342,4 @@ namespace Piccolo
 
     } // namespace Reflection
 
-} // namespace Piccolo
+} // namespace Pilot

@@ -4,7 +4,7 @@
 #include "runtime/core/math/vector2.h"
 #include "runtime/core/math/vector3.h"
 
-namespace Piccolo
+namespace Pilot
 {
     REFLECTION_TYPE(CameraPose)
     CLASS(CameraPose, Fields)
@@ -28,4 +28,4 @@ namespace Piccolo
         float      m_z_far;
         float      m_z_near;
     };
-} // namespace Piccolo
+} // namespace Pilot

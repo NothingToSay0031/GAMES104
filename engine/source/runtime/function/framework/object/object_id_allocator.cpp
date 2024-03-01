@@ -2,7 +2,7 @@
 
 #include "core/base/macro.h"
 
-namespace Piccolo
+namespace Pilot
 {
     std::atomic<GObjectID> ObjectIDAllocator::m_next_id {0};
 
@@ -18,4 +18,4 @@ namespace Piccolo
         return new_object_ret;
     }
 
-} // namespace Piccolo
+} // namespace Pilot

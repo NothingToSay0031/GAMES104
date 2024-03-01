@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace Piccolo
+namespace Pilot
 {
     enum class PrimitiveType
     {
@@ -43,4 +43,4 @@ namespace Piccolo
         RawIndexBuffer  index_buffer;
         MaterialTexture material_texture;
     };
-} // namespace Piccolo
+} // namespace Pilot

@@ -1,7 +1,7 @@
 #pragma once
 #include "runtime/core/meta/reflection/reflection.h"
 
-namespace Piccolo
+namespace Pilot
 {
     REFLECTION_TYPE(MaterialRes)
     CLASS(MaterialRes, Fields)
@@ -15,4 +15,4 @@ namespace Piccolo
         std::string m_occlusion_texture_file;
         std::string m_emissive_texture_file;
     };
-} // namespace Piccolo
+} // namespace Pilot

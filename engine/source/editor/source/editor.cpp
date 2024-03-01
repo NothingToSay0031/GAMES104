@@ -10,22 +10,22 @@
 #include "editor/include/editor_scene_manager.h"
 #include "editor/include/editor_ui.h"
 
-namespace Piccolo
+namespace Pilot
 {
     void registerEdtorTickComponent(std::string component_type_name)
     {
         g_editor_tick_component_types.insert(component_type_name);
     }
 
-    PiccoloEditor::PiccoloEditor()
+    PilotEditor::PilotEditor()
     {
         registerEdtorTickComponent("TransformComponent");
         registerEdtorTickComponent("MeshComponent");
     }
 
-    PiccoloEditor::~PiccoloEditor() {}
+    PilotEditor::~PilotEditor() {}
 
-    void PiccoloEditor::initialize(PiccoloEngine* engine_runtime)
+    void PilotEditor::initialize(PilotEngine* engine_runtime)
     {
         assert(engine_runtime);
 
@@ -46,9 +46,9 @@ namespace Piccolo
         m_editor_ui->initialize(ui_init_info);
     }
 
-    void PiccoloEditor::clear() { g_editor_global_context.clear(); }
+    void PilotEditor::clear() { g_editor_global_context.clear(); }
 
-    void PiccoloEditor::run()
+    void PilotEditor::run()
     {
         assert(m_engine_runtime);
         assert(m_editor_ui);
@@ -62,4 +62,4 @@ namespace Piccolo
                 return;
         }
     }
-} // namespace Piccolo
+} // namespace Pilot

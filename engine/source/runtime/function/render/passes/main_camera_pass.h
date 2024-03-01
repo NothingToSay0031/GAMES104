@@ -7,16 +7,10 @@
 #include "runtime/function/render/passes/fxaa_pass.h"
 #include "runtime/function/render/passes/tone_mapping_pass.h"
 #include "runtime/function/render/passes/ui_pass.h"
-#include "runtime/function/render/passes/particle_pass.h"
 
-namespace Piccolo
+namespace Pilot
 {
     class RenderResourceBase;
-
-    struct MainCameraPassInitInfo : RenderPassInitInfo
-    {
-        bool enble_fxaa;
-    };
 
     class MainCameraPass : public RenderPass
     {
@@ -60,40 +54,31 @@ namespace Piccolo
         void preparePassData(std::shared_ptr<RenderResourceBase> render_resource) override final;
 
         void draw(ColorGradingPass& color_grading_pass,
-            FXAAPass& fxaa_pass,
-            ToneMappingPass& tone_mapping_pass,
-            UIPass& ui_pass,
-            CombineUIPass& combine_ui_pass,
-            ParticlePass& particle_pass,
-            uint32_t          current_swapchain_image_index);
+                  FXAAPass&         fxaa_pass,
+                  ToneMappingPass&  tone_mapping_pass,
+                  UIPass&           ui_pass,
+                  CombineUIPass&    combine_ui_pass,
+                  uint32_t          current_swapchain_image_index);
 
         void drawForward(ColorGradingPass& color_grading_pass,
-            FXAAPass& fxaa_pass,
-            ToneMappingPass& tone_mapping_pass,
-            UIPass& ui_pass,
-            CombineUIPass& combine_ui_pass,
-            ParticlePass& particle_pass,
-            uint32_t          current_swapchain_image_index);
+                         FXAAPass&         fxaa_pass,
+                         ToneMappingPass&  tone_mapping_pass,
+                         UIPass&           ui_pass,
+                         CombineUIPass&    combine_ui_pass,
+                         uint32_t          current_swapchain_image_index);
 
-        void copyNormalAndDepthImage();
+        VkImageView m_point_light_shadow_color_image_view;
+        VkImageView m_directional_light_shadow_color_image_view;
 
-        RHIImageView* m_point_light_shadow_color_image_view;
-        RHIImageView* m_directional_light_shadow_color_image_view;
-
-        bool                                         m_is_show_axis{ false };
-        bool                                         m_enable_fxaa{ false };
-        size_t                                       m_selected_axis{ 3 };
+        bool                                         m_is_show_axis {false};
+        size_t                                       m_selected_axis {3};
         MeshPerframeStorageBufferObject              m_mesh_perframe_storage_buffer_object;
         AxisStorageBufferObject                      m_axis_storage_buffer_object;
+        ParticleBillboardPerframeStorageBufferObject m_particlebillboard_perframe_storage_buffer_object;
 
         void updateAfterFramebufferRecreate();
 
-        RHICommandBuffer* getRenderCommandBuffer();
-
-        void setParticlePass(std::shared_ptr<ParticlePass> pass);
-
     private:
-        void setupParticlePass();
         void setupAttachments();
         void setupRenderPass();
         void setupDescriptorSetLayout();
@@ -112,12 +97,10 @@ namespace Piccolo
         void drawDeferredLighting();
         void drawMeshLighting();
         void drawSkybox();
+        void drawBillboardParticle();
         void drawAxis();
 
-
-
     private:
-        std::vector<RHIFramebuffer*> m_swapchain_framebuffers;
-        std::shared_ptr<ParticlePass> m_particle_pass;
+        std::vector<VkFramebuffer> m_swapchain_framebuffers;
     };
-} // namespace Piccolo
+} // namespace Pilot

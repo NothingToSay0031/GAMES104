@@ -5,7 +5,7 @@
 #include "runtime/function/controller/character_controller.h"
 #include "runtime/function/framework/component/component.h"
 
-namespace Piccolo
+namespace Pilot
 {
     enum class MotorState : unsigned char
     {
@@ -66,4 +66,4 @@ namespace Piccolo
 
         bool m_is_moving {false};
     };
-} // namespace Piccolo
+} // namespace Pilot

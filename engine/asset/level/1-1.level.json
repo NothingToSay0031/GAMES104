@@ -7,35 +7,6 @@
   "character_name": "Player",
   "objects": [
     {
-      "name": "Emitter",
-      "instanced_components": [
-        {
-          "$typeName": "TransformComponent",
-          "$context": {
-            "transform": {
-              "position": {
-                "x": 32,
-                "y": 11,
-                "z": 3
-              },
-              "rotation": {
-                "w": 0.46944212913513184,
-                "x": 0,
-                "y": 0,
-                "z": 0.88296324014663696
-              },
-              "scale": {
-                "x": 1,
-                "y": 1,
-                "z": 1
-              }
-            }
-          }
-        }
-      ],
-      "definition": "asset/objects/environment/particle/particle.object.json"
-    },
-    {
       "name": "Player",
       "instanced_components": [
         {
@@ -48,10 +19,10 @@
                 "z": 0
               },
               "rotation": {
-                "w": 0.70710678118654752,
+                "w": 1,
                 "x": 0,
                 "y": 0,
-                "z": 0.70710678118654752
+                "z": 0
               },
               "scale": {
                 "x": 1,
@@ -449,19 +420,19 @@
           "$context": {
             "transform": {
               "position": {
-                "x": -0.22757600247859955,
-                "y": 19.879196166992188,
+                "x": -0.227576,
+                "y": 20.4413,
                 "z": 0
               },
               "rotation": {
-                "w": 1,
                 "x": 0,
                 "y": 0,
-                "z": 0
+                "z": 0,
+                "w": 1
               },
               "scale": {
                 "x": 1,
-                "y": 0.89999997615814209,
+                "y": 1,
                 "z": 1
               }
             }
@@ -565,19 +536,19 @@
           "$context": {
             "transform": {
               "position": {
-                "x": -19.083700180053711,
-                "y": 3.6104748249053955,
+                "x": -19.0837,
+                "y": 3.74536,
                 "z": 0
               },
               "rotation": {
-                "w": 1,
                 "x": 0,
                 "y": 0,
-                "z": 0
+                "z": 0,
+                "w": 1
               },
               "scale": {
                 "x": 1,
-                "y": 0.87999975681304932,
+                "y": 0.86,
                 "z": 1
               }
             }
@@ -739,19 +710,19 @@
           "$context": {
             "transform": {
               "position": {
-                "x": 32.364448547363281,
-                "y": 3.2151899337768555,
+                "x": 32.3802,
+                "y": 3.21519,
                 "z": 0
               },
               "rotation": {
-                "w": 1,
                 "x": 0,
                 "y": 0,
-                "z": 0
+                "z": 0,
+                "w": 1
               },
               "scale": {
                 "x": 1,
-                "y": 0.90999966859817505,
+                "y": 1,
                 "z": 1
               }
             }
@@ -901,6 +872,93 @@
                 "x": 0,
                 "y": 0,
                 "z": 0
+              }
+            }
+          },
+          "$typeName": "TransformComponent"
+        }
+      ]
+    },
+    {
+      "name": "Step_wall_1",
+      "definition": "asset/objects/environment/wall/wall.object.json",
+      "instanced_components": [
+        {
+          "$context": {
+            "transform": {
+              "position": {
+                "x": -6,
+                "y": -7.6,
+                "z": 0.15
+              },
+              "rotation": {
+                "w": 0.70710678118654752,
+                "x": 0.0,
+                "y": 0.70710678118654752,
+                "z": -0.0
+              },
+              "scale": {
+                "x": 0.75,
+                "y": 0.35,
+                "z": 0.5
+              }
+            }
+          },
+          "$typeName": "TransformComponent"
+        }
+      ]
+    },
+    {
+      "name": "Step_wall_2",
+      "definition": "asset/objects/environment/wall/wall.object.json",
+      "instanced_components": [
+        {
+          "$context": {
+            "transform": {
+              "position": {
+                "x": -7,
+                "y": -7.6,
+                "z": 0.37
+              },
+              "rotation": {
+                "w": 0.70710678118654752,
+                "x": 0.0,
+                "y": 0.70710678118654752,
+                "z": -0.0
+              },
+              "scale": {
+                "x": 0.75,
+                "y": 0.35,
+                "z": 0.5
+              }
+            }
+          },
+          "$typeName": "TransformComponent"
+        }
+      ]
+    },
+    {
+      "name": "Step_wall_3",
+      "definition": "asset/objects/environment/wall/wall.object.json",
+      "instanced_components": [
+        {
+          "$context": {
+            "transform": {
+              "position": {
+                "x": -8,
+                "y": -7.6,
+                "z": 0.59
+              },
+              "rotation": {
+                "w": 0.70710678118654752,
+                "x": 0.0,
+                "y": 0.70710678118654752,
+                "z": -0.0
+              },
+              "scale": {
+                "x": 0.75,
+                "y": 0.35,
+                "z": 0.5
               }
             }
           },

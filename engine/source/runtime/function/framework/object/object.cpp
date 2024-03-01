@@ -15,7 +15,7 @@
 
 #include "_generated/serializer/all_serializer.h"
 
-namespace Piccolo
+namespace Pilot
 {
     bool shouldComponentTick(std::string component_type_name)
     {
@@ -33,7 +33,7 @@ namespace Piccolo
     {
         for (auto& component : m_components)
         {
-            PICCOLO_REFLECTION_DELETE(component);
+            PILOT_REFLECTION_DELETE(component);
         }
         m_components.clear();
     }
@@ -109,4 +109,4 @@ namespace Piccolo
         out_object_instance_res.m_instanced_components = m_components;
     }
 
-} // namespace Piccolo
+} // namespace Pilot

@@ -122,7 +122,7 @@ namespace Piccolo
             g_runtime_global_context.m_world_manager->getCurrentActivePhysicsScene().lock();
         ASSERT(physics_scene);
 
-        if (m_motor_res.m_jump_height == 0.f)
+        if (m_motor_res.m_jump_height_.value == 0.f)
             return;
 
         const float gravity = physics_scene->getGravity().length();
@@ -131,8 +131,9 @@ namespace Piccolo
         {
             if ((unsigned int)GameCommand::jump & command)
             {
-                m_jump_state                  = JumpState::rising;
-                m_vertical_move_speed         = Math::sqrt(m_motor_res.m_jump_height * 2 * gravity);
+                m_jump_state = JumpState::rising;
+                // m_vertical_move_speed         = Math::sqrt(m_motor_res.m_jump_height * 2 * gravity);
+                m_vertical_move_speed         = Math::sqrt(m_motor_res.m_jump_height_.value * 2 * gravity);
                 m_jump_horizontal_speed_ratio = m_move_speed_ratio;
             }
             else
